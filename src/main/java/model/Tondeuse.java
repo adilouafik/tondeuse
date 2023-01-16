@@ -1,5 +1,7 @@
 package model;
 
+import model.enumerations.Rules;
+
 public class Tondeuse {
     Position position;
     Pelouse pelouse;
@@ -9,11 +11,18 @@ public class Tondeuse {
         this.pelouse = pelouse;
     }
 
-    private Position move(Position  position, String instruction) {
-        return null;
+    public Position move(Position  position, String instruction) {
+        Position newPosition = new Position(position.getX(),
+                position.getY(),
+                position.getOrientation());
+
+        Rules.executeInstruction(instruction, position.getOrientation())
+                .accept(newPosition);
+
+        return newPosition;
     }
 
-    private boolean isOutOfBound(int x, int y, Pelouse pelouse) {
-        return false;
+    public boolean isOutOfBound(int x, int y, Pelouse pelouse) {
+        return x > pelouse.dimenssionA || y > pelouse.dimenssionB  ||  x < 0  || y < 0;
     }
 }
